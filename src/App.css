@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.custom-confirm-modal {
+  background: white;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 460px;
+  margin: auto;
+  text-align: center;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

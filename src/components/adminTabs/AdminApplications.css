@@ -1,0 +1,154 @@
+/* -- Card Styling -- */
+.app-card {
+  border-radius: 20px;
+  background: #ffffffcc;
+  backdrop-filter: blur(4px);
+  border: 1px solid #dee2e6;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  overflow: hidden;
+}
+
+.app-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+}
+
+/* -- Content Typography -- */
+.card-body {
+  padding: 2rem 2rem 1.5rem 2rem;
+}
+
+.card h5 {
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 0.35rem;
+}
+
+.text-muted {
+  font-size: 0.88rem;
+  color: #6c757d !important;
+}
+
+.status-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 0.3rem;
+}
+
+/* -- Sticky Edit/Timeline Buttons -- */
+.sticky-action {
+  position: sticky;
+  top: 12px;
+  z-index: 3;
+  background-color: #fff;
+  padding-top: 10px;
+  padding-left: 1rem;
+  border-left: 1px solid #dee2e6;
+}
+
+/* -- Form Styling -- */
+.form-control,
+.form-select {
+  font-size: 0.94rem;
+  border-radius: 8px;
+  border-color: #d1d1d1;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+}
+
+/* -- Buttons -- */
+.btn-primary {
+  background-color: #1e3a8a;
+  border-color: #1e3a8a;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #162f6b;
+  border-color: #162f6b;
+}
+
+/* -- Timeline (Vertical Progress Style) -- */
+.list-group-item {
+  border-left: 3px solid #0d6efd;
+  border-radius: 0;
+  background-color: #f8f9fa;
+  padding-left: 1rem;
+  margin-bottom: 0.6rem;
+  position: relative;
+}
+
+.list-group-item::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 10px;
+  width: 12px;
+  height: 12px;
+  background-color: #0d6efd;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px #0d6efd33;
+}
+
+.list-group-item h6 {
+  font-size: 0.96rem;
+  font-weight: 600;
+}
+
+.list-group-item .text-muted {
+  font-size: 0.85rem;
+}
+
+/* -- Email Preview Box -- */
+pre {
+  background-color: #f0f4ff;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  font-size: 0.86rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  border-left: 4px solid #1e3a8a;
+  color: #1e1e1e;
+}
+
+/* -- Animation & Transitions -- */
+.fade-in {
+  animation: fadeInSoft 0.35s ease-in-out;
+}
+
+@keyframes fadeInSoft {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* -- Filters Section -- */
+form .form-control,
+form .form-select {
+  min-height: 40px;
+}
+
+.datepicker__input-container {
+  width: 100%;
+}
