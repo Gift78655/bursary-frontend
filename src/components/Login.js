@@ -4,7 +4,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './Login.css'; // ✅ Import external CSS
+import './Login.css';
+import { API_BASE_URL } from '../App'; // ✅ Import base URL from App.js
 
 function Login() {
   const [form, setForm] = useState({ email: '', password: '', role: 'student' });
@@ -16,8 +17,17 @@ function Login() {
     setLoading(true);
 
     try {
-      const apiUrl = `${process.env.REACT_APP_API_BASE_URL}/api/login`;
-      const res = await axios.post(apiUrl, form);
+      const res = await axios.post(
+        `${API_BASE_URL}/api/login`,
+        {
+          email: form.email,
+          password: form.password,
+          role: form.role,
+        },
+        {
+          withCredentials: true, // ✅ Required for cookies or token headers
+        }
+      );
 
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('role', form.role);
@@ -50,7 +60,7 @@ function Login() {
           className="form-control custom-input"
           placeholder="Email"
           value={form.email}
-          onChange={e => setForm({ ...form, email: e.target.value })}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
           required
           autoFocus
         />
@@ -60,13 +70,13 @@ function Login() {
           className="form-control custom-input"
           placeholder="Password"
           value={form.password}
-          onChange={e => setForm({ ...form, password: e.target.value })}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
           required
         />
 
         <select
           className="form-select custom-input"
-          onChange={e => setForm({ ...form, role: e.target.value })}
+          onChange={(e) => setForm({ ...form, role: e.target.value })}
           value={form.role}
         >
           <option value="student">Student</option>
