@@ -5,10 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
-import { API_BASE_URL } from '../App'; // ✅ Import base URL from App.js
+import { API_BASE_URL } from '../App'; // ✅ Ensure this points to your backend URL
 
 function Login() {
-  const [form, setForm] = useState({ email: '', password: '', role: 'student' });
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+    role: 'student',
+  });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -25,7 +29,7 @@ function Login() {
           role: form.role,
         },
         {
-          withCredentials: true, // ✅ Required for cookies or token headers
+          withCredentials: true, // ✅ Needed if backend uses cookies/tokens
         }
       );
 
@@ -39,7 +43,8 @@ function Login() {
       });
 
       setTimeout(() => {
-        const dashboard = form.role === 'admin' ? '/admin-dashboard' : '/student-dashboard';
+        const dashboard =
+          form.role === 'admin' ? '/admin-dashboard' : '/student-dashboard';
         navigate(dashboard);
       }, 1600);
     } catch (err) {
@@ -76,14 +81,18 @@ function Login() {
 
         <select
           className="form-select custom-input"
-          onChange={(e) => setForm({ ...form, role: e.target.value })}
           value={form.role}
+          onChange={(e) => setForm({ ...form, role: e.target.value })}
         >
           <option value="student">Student</option>
           <option value="admin">Admin</option>
         </select>
 
-        <button className="btn btn-primary w-100 login-button" type="submit" disabled={loading}>
+        <button
+          className="btn btn-primary w-100 login-button"
+          type="submit"
+          disabled={loading}
+        >
           {loading ? 'Logging in...' : 'Login'}
         </button>
       </form>

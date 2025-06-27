@@ -9,15 +9,16 @@ import {
   Link,
 } from 'react-router-dom';
 
-// ✅ Correct component imports
+// ✅ Component imports
 import Login from './components/Login';
 import RegisterStudent from './components/RegisterStudent';
 import RegisterAdmin from './components/RegisterAdmin';
 import StudentDashboard from './components/StudentDashboard';
 import AdminDashboard from './components/AdminDashboard';
 
-// 🌐 Base URL for backend API from environment
-export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+// 🌐 Backend URL
+export const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
 
 function App() {
   return (
@@ -55,7 +56,7 @@ function App() {
 
 export default App;
 
-// 🔐 Route protection based on token + role
+// 🔐 Route protection
 function ProtectedRoute({ allowedRole, children }) {
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
@@ -72,7 +73,7 @@ function ProtectedRoute({ allowedRole, children }) {
   return children;
 }
 
-// 🧭 Navigation bar that adapts to login state
+// 🧭 Navbar
 function NavigationBar() {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
@@ -86,7 +87,6 @@ function NavigationBar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4 mb-4">
       <Link className="navbar-brand" to="/">Bursary App</Link>
-
       <div className="ms-auto">
         {!token ? (
           <>
@@ -105,7 +105,7 @@ function NavigationBar() {
   );
 }
 
-// ❌ 404 Not Found fallback
+// ❌ 404 fallback
 function NotFound() {
   return (
     <div className="text-center mt-5">
