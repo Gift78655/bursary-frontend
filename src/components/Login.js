@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
-import { API_BASE_URL } from '../App'; // ✅ Ensure this points to your backend URL
+
+// ✅ Directly embedded backend URL
+const API_BASE_URL = 'https://bursary-backend.onrender.com'; // Update if your backend changes
 
 function Login() {
   const [form, setForm] = useState({
@@ -29,7 +31,7 @@ function Login() {
           role: form.role,
         },
         {
-          withCredentials: true, // ✅ Needed if backend uses cookies/tokens
+          withCredentials: true,
         }
       );
 
