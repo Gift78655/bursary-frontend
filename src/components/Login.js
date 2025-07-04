@@ -6,15 +6,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
 
-// ✅ Directly embedded backend URL
-const API_BASE_URL = 'https://bursary-backend.onrender.com'; // Update if your backend changes
+// ✅ Import API base URL from App.js
+import { API_BASE_URL } from '../App';
 
 function Login() {
-  const [form, setForm] = useState({
-    email: '',
-    password: '',
-    role: 'student',
-  });
+  const [form, setForm] = useState({ email: '', password: '', role: 'student' });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -23,18 +19,7 @@ function Login() {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        `${API_BASE_URL}/api/login`,
-        {
-          email: form.email,
-          password: form.password,
-          role: form.role,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-
+      const res = await axios.post(`${API_BASE_URL}/api/login`, form);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('role', form.role);
       localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -45,12 +30,10 @@ function Login() {
       });
 
       setTimeout(() => {
-        const dashboard =
-          form.role === 'admin' ? '/admin-dashboard' : '/student-dashboard';
-        navigate(dashboard);
+        navigate(form.role === 'admin' ? '/admin-dashboard' : '/student-dashboard');
       }, 1600);
     } catch (err) {
-      console.error('Login error:', err);
+      console.error(err);
       toast.error('Login failed. Check your email and password.');
     } finally {
       setLoading(false);
@@ -66,8 +49,7 @@ function Login() {
           type="email"
           className="form-control custom-input"
           placeholder="Email"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          onChange={e => setForm({ ...form, email: e.target.value })}
           required
           autoFocus
         />
@@ -76,33 +58,26 @@ function Login() {
           type="password"
           className="form-control custom-input"
           placeholder="Password"
-          value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          onChange={e => setForm({ ...form, password: e.target.value })}
           required
         />
 
         <select
           className="form-select custom-input"
+          onChange={e => setForm({ ...form, role: e.target.value })}
           value={form.role}
-          onChange={(e) => setForm({ ...form, role: e.target.value })}
         >
           <option value="student">Student</option>
           <option value="admin">Admin</option>
         </select>
 
-        <button
-          className="btn btn-primary w-100 login-button"
-          type="submit"
-          disabled={loading}
-        >
+        <button className="btn btn-primary w-100 login-button" type="submit" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </button>
       </form>
 
       <footer className="login-footer">
-        <small>
-          Created by Gift Mthombeni &copy; {new Date().getFullYear()} | Bursary Management System
-        </small>
+        <small>Created by Gift Mthombeni &copy; {new Date().getFullYear()} | Bursary Management System</small>
       </footer>
 
       <ToastContainer />

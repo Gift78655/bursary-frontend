@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+// ✅ Import backend base URL from App.js
+import { API_BASE_URL } from '../App';
+
 function RegisterAdmin() {
   const [form, setForm] = useState({
     full_name: '',
@@ -29,9 +32,9 @@ function RegisterAdmin() {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:5000/api/register/admin', form);
+      await axios.post(`${API_BASE_URL}/api/register/admin`, form);
 
-      const loginRes = await axios.post('http://localhost:5000/api/login', {
+      const loginRes = await axios.post(`${API_BASE_URL}/api/login`, {
         email: form.email,
         password: form.password,
         role: form.role

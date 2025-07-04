@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import Skeleton from 'react-loading-skeleton';
+import { API_BASE_URL } from '../../config'; // ✅ Added
 
 export default function ApplyBursary() {
   const [bursaries, setBursaries] = useState([]);
@@ -70,7 +71,7 @@ export default function ApplyBursary() {
   const fetchBursaries = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:5000/api/bursaries/available');
+      const res = await axios.get(`${API_BASE_URL}/api/bursaries/available`);
       setBursaries(res.data);
     } catch (err) {
       console.error(err);
@@ -82,7 +83,7 @@ export default function ApplyBursary() {
 
   const fetchApplications = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/applications?student_id=${studentId}`);
+      const res = await axios.get(`${API_BASE_URL}/api/applications?student_id=${studentId}`);
       const applied = res.data.map(app => app.bursary_id);
       setAppliedIds(applied);
     } catch (err) {
@@ -119,7 +120,7 @@ export default function ApplyBursary() {
       message: 'Ensure your profile is accurate. After submission, you’ll receive an email confirmation aligned with POPIA guidelines.',
       onConfirm: async () => {
         try {
-          await axios.post('http://localhost:5000/api/applications', {
+          await axios.post(`${API_BASE_URL}/api/applications`, {
             student_id: studentId,
             bursary_id: bursary.bursary_id
           });
@@ -147,7 +148,7 @@ export default function ApplyBursary() {
       message: 'You’ll receive an email confirming this withdrawal. Proceed?',
       onConfirm: async () => {
         try {
-          await axios.post('http://localhost:5000/api/applications/withdraw', {
+          await axios.post(`${API_BASE_URL}/api/applications/withdraw`, {
             student_id: studentId,
             bursary_id: bursary.bursary_id
           });

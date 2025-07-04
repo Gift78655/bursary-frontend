@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { API_BASE_URL } from '../../config'; // ✅ Imported here
 
 export default function Profile() {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -32,7 +33,7 @@ export default function Profile() {
       return;
     }
 
-    axios.get(`http://localhost:5000/api/students/${studentId}`)
+    axios.get(`${API_BASE_URL}/api/students/${studentId}`)
       .then(res => {
         setFormData(res.data);
         setOriginalData(res.data);
@@ -101,7 +102,7 @@ export default function Profile() {
       field_of_study: formData.field_of_study.trim()
     };
 
-    axios.put(`http://localhost:5000/api/students/${studentId}`, cleanedData)
+    axios.put(`${API_BASE_URL}/api/students/${studentId}`, cleanedData)
       .then(() => {
         toast.success('✅ Profile updated successfully');
         setOriginalData(cleanedData);

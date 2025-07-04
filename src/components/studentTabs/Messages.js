@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Form, Button, ListGroup, Card, Spinner, Alert } from 'react-bootstrap';
+import { API_BASE_URL } from '../../config'; // ✅ Import API base URL
 
 export default function Messages() {
   const [admins, setAdmins] = useState([]);
@@ -16,7 +17,7 @@ export default function Messages() {
   const studentId = storedUser?.student_id;
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/admins')
+    axios.get(`${API_BASE_URL}/api/admins`)
       .then(res => {
         setAdmins(res.data);
         setLoadingAdmins(false);
@@ -31,7 +32,7 @@ export default function Messages() {
     if (!studentId || !admin?.admin_id) return console.error('❌ Missing IDs for conversation');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/conversations/initiate', {
+      const res = await axios.post(`${API_BASE_URL}/api/conversations/initiate`, {
         student_id: studentId,
         admin_id: admin.admin_id
       });
@@ -46,7 +47,7 @@ export default function Messages() {
   const fetchMessages = async (convoId) => {
     setLoadingMessages(true);
     try {
-      const res = await axios.get(`http://localhost:5000/api/messages/conversation/${convoId}`);
+      const res = await axios.get(`${API_BASE_URL}/api/messages/conversation/${convoId}`);
       setMessages(res.data);
     } catch (err) {
       console.error('❌ Fetching messages failed:', err);
@@ -60,7 +61,7 @@ export default function Messages() {
     setSending(true);
 
     try {
-      await axios.post('http://localhost:5000/api/messages/send', {
+      await axios.post(`${API_BASE_URL}/api/messages/send`, {
         conversation_id: conversationId,
         sender_id: studentId,
         receiver_id: selectedAdmin.admin_id,

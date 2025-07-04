@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+// ✅ Import base URL from App.js
+import { API_BASE_URL } from '../App';
+
 function RegisterStudent() {
   const [form, setForm] = useState({
     full_name: '',
@@ -22,18 +25,19 @@ function RegisterStudent() {
 
     try {
       // Step 1: Register the student
-      await axios.post('http://localhost:5000/api/register/student', form);
+      await axios.post(`${API_BASE_URL}/api/register/student`, form);
 
       // Step 2: Auto-login
-      const loginRes = await axios.post('http://localhost:5000/api/login', {
+      const loginRes = await axios.post(`${API_BASE_URL}/api/login`, {
         email: form.email,
         password: form.password,
         role: 'student'
       });
 
-      const { token } = loginRes.data;
+      const { token, user } = loginRes.data;
       localStorage.setItem('token', token);
       localStorage.setItem('role', 'student');
+      localStorage.setItem('user', JSON.stringify(user));
 
       // Step 3: Toast + Redirect
       toast.success('Student registered and logged in! Redirecting...', {

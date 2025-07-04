@@ -1,7 +1,7 @@
-// 📁 src/components/adminTabs/messages_admin.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card, Form, Button, Spinner, Alert } from 'react-bootstrap';
+import { API_BASE_URL } from '../../App'; // adjust if needed
 
 export default function MessagesAdmin() {
   const [students, setStudents] = useState([]);
@@ -14,7 +14,6 @@ export default function MessagesAdmin() {
   const [error, setError] = useState('');
   const [adminId, setAdminId] = useState(null);
 
-  // 🔐 Load admin ID from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     try {
@@ -30,9 +29,8 @@ export default function MessagesAdmin() {
     }
   }, []);
 
-  // 📥 Fetch all students
   useEffect(() => {
-    axios.get('http://localhost:5000/api/students')
+    axios.get(`${API_BASE_URL}/api/students`)
       .then(res => setStudents(res.data))
       .catch(err => {
         console.error('❌ Failed to fetch students', err);
@@ -40,7 +38,6 @@ export default function MessagesAdmin() {
       });
   }, []);
 
-  // 🎯 Handle student selection and auto-initiate conversation
   const handleStudentSelect = async (e) => {
     const studentId = parseInt(e.target.value);
     const student = students.find(s => s.student_id === studentId);
@@ -55,7 +52,7 @@ export default function MessagesAdmin() {
     }
 
     try {
-      const res = await axios.post('http://localhost:5000/api/conversations/initiate', {
+      const res = await axios.post(`${API_BASE_URL}/api/conversations/initiate`, {
         student_id: studentId,
         admin_id: adminId
       });
@@ -68,11 +65,10 @@ export default function MessagesAdmin() {
     }
   };
 
-  // 🔄 Load messages
   const loadMessages = async (convId) => {
     setLoadingMessages(true);
     try {
-      const res = await axios.get(`http://localhost:5000/api/messages/conversation/${convId}`);
+      const res = await axios.get(`${API_BASE_URL}/api/messages/conversation/${convId}`);
       setMessages(res.data);
     } catch (err) {
       console.error('❌ Failed to load messages', err);
@@ -81,7 +77,6 @@ export default function MessagesAdmin() {
     setLoadingMessages(false);
   };
 
-  // 📤 Send new message
   const sendMessage = async () => {
     if (!newMessage.trim()) return;
     if (!adminId || !selectedStudent?.student_id || !conversationId) {
@@ -91,7 +86,7 @@ export default function MessagesAdmin() {
 
     setSending(true);
     try {
-      await axios.post('http://localhost:5000/api/messages/send', {
+      await axios.post(`${API_BASE_URL}/api/messages/send`, {
         conversation_id: conversationId,
         sender_id: adminId,
         receiver_id: selectedStudent.student_id,

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { API_BASE_URL } from '../../App'; // ✅ Adjust this import path based on your file structure
 
 export default function AdminProfile() {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -32,7 +33,7 @@ export default function AdminProfile() {
       return;
     }
 
-    axios.get(`http://localhost:5000/api/admins/${adminId}`)
+    axios.get(`${API_BASE_URL}/api/admins/${adminId}`)
       .then(res => {
         setFormData(res.data);
         setOriginalData(res.data);
@@ -80,7 +81,7 @@ export default function AdminProfile() {
     setShowConfirm(false);
     setLastSaved(false);
 
-    axios.put(`http://localhost:5000/api/admins/${adminId}`, formData)
+    axios.put(`${API_BASE_URL}/api/admins/${adminId}`, formData)
       .then(() => {
         toast.success('Profile updated successfully');
         setOriginalData(formData);

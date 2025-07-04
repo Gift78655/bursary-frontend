@@ -12,40 +12,46 @@ export default function DashboardHome() {
           <FaHome size={28} className="me-2 text-primary" />
           <h3 className="mb-0 fw-bold">Welcome to Your Student Dashboard</h3>
         </div>
-        <hr />
+        <hr className="mb-4" />
 
         <p className="fs-5 text-muted">
-          This is your personal hub for managing bursary opportunities. From here, you can explore open bursaries, track your applications, receive updates, and communicate with administrators.
+          This is your personal hub for managing bursary opportunities. From here, you can:
         </p>
 
-        <Row className="mt-4">
+        <ul className="fs-6 text-muted mb-4">
+          <li>🔍 Explore open bursaries aligned with your field of study</li>
+          <li>🎓 Track your bursary applications and view their status</li>
+          <li>📬 Stay updated with direct messages from administrators</li>
+        </ul>
+
+        <Row className="g-4">
           <Col md={4}>
-            <Card className="text-center border-0 shadow-sm rounded-3 mb-3 p-3 bg-white">
+            <Card className="text-center border-0 shadow-sm rounded-3 p-3 bg-white h-100">
               <FaSearch size={30} className="text-info mb-2" />
-              <h5>Explore Bursaries</h5>
-              <p className="fs-6 text-muted">Find bursaries that match your goals</p>
+              <h5 className="fw-semibold">Explore Bursaries</h5>
+              <p className="text-muted mb-0">Find bursaries that match your goals</p>
             </Card>
           </Col>
           <Col md={4}>
-            <Card className="text-center border-0 shadow-sm rounded-3 mb-3 p-3 bg-white">
+            <Card className="text-center border-0 shadow-sm rounded-3 p-3 bg-white h-100">
               <FaGraduationCap size={30} className="text-success mb-2" />
-              <h5>Your Applications</h5>
-              <p className="fs-6 text-muted">Track the status of your submissions</p>
+              <h5 className="fw-semibold">Your Applications</h5>
+              <p className="text-muted mb-0">Track the status of your submissions</p>
             </Card>
           </Col>
           <Col md={4}>
-            <Card className="text-center border-0 shadow-sm rounded-3 mb-3 p-3 bg-white">
+            <Card className="text-center border-0 shadow-sm rounded-3 p-3 bg-white h-100">
               <FaEnvelopeOpenText size={30} className="text-warning mb-2" />
-              <h5>Messages & Updates</h5>
-              <p className="fs-6 text-muted">Stay informed through direct messages</p>
+              <h5 className="fw-semibold">Messages & Updates</h5>
+              <p className="text-muted mb-0">Stay informed through direct messages</p>
             </Card>
           </Col>
         </Row>
 
-        <Alert variant="info" className="mt-4 rounded-3 d-flex align-items-start">
-          <FaRegLightbulb className="me-2 text-warning mt-1" />
+        <Alert variant="info" className="mt-5 rounded-3 d-flex align-items-start shadow-sm">
+          <FaRegLightbulb className="me-3 text-warning mt-1" size={20} />
           <div>
-            <strong>Pro Tip:</strong> Always double-check eligibility before applying. Prepare all documents in advance to streamline the application process.
+            <strong>Pro Tip:</strong> Always double-check your eligibility before applying. Prepare and verify all required documents in advance to ensure a smooth application process.
           </div>
         </Alert>
 

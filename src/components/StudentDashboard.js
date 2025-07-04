@@ -6,17 +6,20 @@ import UploadDocuments from './studentTabs/UploadDocuments';
 import Messages from './studentTabs/Messages';
 import Profile from './studentTabs/Profile';
 
+// 🔗 Import API_BASE_URL (used by child tabs)
+import { API_BASE_URL } from '../App';
+
 export default function StudentDashboard() {
   const [activeTab, setActiveTab] = useState('Home');
 
   const renderTabContent = () => {
     switch (activeTab) {
       case 'Home': return <DashboardHome />;
-      case 'Apply': return <ApplyBursary />;
-      case 'Applications': return <MyApplications />;
-      case 'Documents': return <UploadDocuments />;
-      case 'Messages': return <Messages />;
-      case 'Profile': return <Profile />;
+      case 'Apply': return <ApplyBursary API_BASE_URL={API_BASE_URL} />;
+      case 'Applications': return <MyApplications API_BASE_URL={API_BASE_URL} />;
+      case 'Documents': return <UploadDocuments API_BASE_URL={API_BASE_URL} />;
+      case 'Messages': return <Messages API_BASE_URL={API_BASE_URL} />;
+      case 'Profile': return <Profile API_BASE_URL={API_BASE_URL} />;
       default: return <DashboardHome />;
     }
   };

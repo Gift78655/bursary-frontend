@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './AdminApplications.css';
+import { API_BASE_URL } from '../../config';
 
 export default function AdminApplications() {
   const [applications, setApplications] = useState([]);
@@ -30,7 +31,7 @@ export default function AdminApplications() {
   }, []);
 
   const fetchApplications = () => {
-    axios.get('http://localhost:5000/api/admin/applications')
+    axios.get(`${API_BASE_URL}/api/admin/applications`)
       .then(res => {
         setApplications(res.data);
         setLoading(false);
@@ -43,7 +44,7 @@ export default function AdminApplications() {
 
   const fetchDocuments = async (applicationId) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/applications/${applicationId}/documents`);
+      const res = await axios.get(`${API_BASE_URL}/api/applications/${applicationId}/documents`);
       setApplicationDocuments(prev => ({
         ...prev,
         [applicationId]: res.data
@@ -55,7 +56,7 @@ export default function AdminApplications() {
   };
 
   const generateEmailPreview = (studentName, bursaryTitle, status, remarks) => {
-    return `Dear ${studentName},\n\nYour application for the bursary \"${bursaryTitle}\" has been marked as: ${status}.\n\n${remarks || 'Thank you for applying.'}\n\nBest regards,\nBursary Office`;
+    return `Dear ${studentName},\n\nYour application for the bursary "${bursaryTitle}" has been marked as: ${status}.\n\n${remarks || 'Thank you for applying.'}\n\nBest regards,\nBursary Office`;
   };
 
   const handleStatusUpdate = (e, application_id, currentStatus) => {
@@ -69,12 +70,12 @@ export default function AdminApplications() {
     if (!adminId) return toast.error('Admin ID not found. Please re-login.');
     if (status === currentStatus) return toast.info('Selected status is the same as current. No change made.');
 
-    const confirmMsg = `\nYou are about to change the status of this application to \"${status}\".\n\nPlease note:\n- This action may trigger an email notification to the applicant.\n- It may affect the applicant's eligibility or visibility.\n- This action is logged and cannot be undone.\n\nAre you sure you want to proceed?`;
+    const confirmMsg = `\nYou are about to change the status of this application to "${status}".\n\nPlease note:\n- This action may trigger an email notification to the applicant.\n- It may affect the applicant's eligibility or visibility.\n- This action is logged and cannot be undone.\n\nAre you sure you want to proceed?`;
     if (!window.confirm(confirmMsg)) return;
 
     setUpdatingId(application_id);
 
-    axios.post('http://localhost:5000/api/status/update', {
+    axios.post(`${API_BASE_URL}/api/status/update`, {
       application_id,
       status,
       remarks,
@@ -130,7 +131,7 @@ export default function AdminApplications() {
 
   if (loading) return <Spinner animation="border" variant="primary" className="m-4" />;
 
-  return (
+ return (
     <div className="container mt-4">
       <h3 className="mb-3 fw-semibold text-dark">All Bursary Applications</h3>
 
@@ -269,13 +270,14 @@ export default function AdminApplications() {
                             <div className="text-muted small">{(doc.file_size / 1024).toFixed(1)} KB • {doc.file_type}</div>
                           </div>
                           <a
-                            href={`http://localhost:5000/${doc.file_path}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn btn-sm btn-outline-primary"
-                          >
-                            View
-                          </a>
+  href={`${API_BASE_URL}/${doc.file_path}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="btn btn-sm btn-outline-primary"
+>
+  View
+</a>
+
                         </ListGroup.Item>
                       ))}
                     </ListGroup>
@@ -388,3 +390,4 @@ export default function AdminApplications() {
     </div>
   );
 }
+

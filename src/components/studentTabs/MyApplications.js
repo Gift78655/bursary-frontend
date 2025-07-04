@@ -7,6 +7,7 @@ import {
   FaClipboardList, FaCheckCircle, FaTimesCircle, FaClock, FaHourglassHalf, FaSearch
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../config'; // ✅ Add this import
 import './ApplicationStatus.css'; // Optional for extra styling
 
 export default function ApplicationStatus() {
@@ -19,7 +20,6 @@ export default function ApplicationStatus() {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // 🧠 Check session + student ID
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     const role = localStorage.getItem('role');
@@ -33,12 +33,11 @@ export default function ApplicationStatus() {
     setCheckedSession(true);
   }, [navigate]);
 
-  // 📡 Fetch applications
   useEffect(() => {
     if (!studentId || !checkedSession) return;
 
     axios
-      .get(`http://localhost:5000/api/student/${studentId}/applications`)
+      .get(`${API_BASE_URL}/api/student/${studentId}/applications`)
       .then((res) => {
         const sorted = res.data.sort((a, b) => new Date(b.application_date) - new Date(a.application_date));
         setApplications(sorted);
@@ -63,7 +62,6 @@ export default function ApplicationStatus() {
     }
   };
 
-  // 🔍 Filter logic
   useEffect(() => {
     const q = searchQuery.toLowerCase();
     const filtered = applications.filter(app =>
@@ -93,7 +91,6 @@ export default function ApplicationStatus() {
           </Row>
           <p className="text-muted">Track all bursary applications you've submitted and monitor their current statuses.</p>
 
-          {/* 🔢 Status summary */}
           <Row className="mb-3 text-center gx-2">
             <Col><Badge bg="success">✅ Approved: {countByStatus('approved')}</Badge></Col>
             <Col><Badge bg="danger">❌ Declined: {countByStatus('declined')}</Badge></Col>
@@ -101,7 +98,6 @@ export default function ApplicationStatus() {
             <Col><Badge bg="warning">⌛ Pending: {countByStatus('pending')}</Badge></Col>
           </Row>
 
-          {/* 🔍 Search */}
           <InputGroup className="mb-3">
             <InputGroup.Text><FaSearch /></InputGroup.Text>
             <Form.Control

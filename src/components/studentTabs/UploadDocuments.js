@@ -4,6 +4,7 @@ import {
   Container, Row, Col, Card, Form, Button, Spinner, Alert,
   Accordion, Table, Badge, Modal, OverlayTrigger, Tooltip
 } from 'react-bootstrap';
+import { API_BASE_URL } from '../../config'; // ✅ Import API base
 
 export default function UploadDocuments() {
   const [file, setFile] = useState(null);
@@ -19,7 +20,7 @@ export default function UploadDocuments() {
 
   useEffect(() => {
     if (!studentId) return;
-    axios.get(`http://localhost:5000/api/student/applications/${studentId}`)
+    axios.get(`${API_BASE_URL}/api/student/applications/${studentId}`)
       .then(res => {
         const latestApp = res.data?.[0];
         if (latestApp) {
@@ -38,7 +39,7 @@ export default function UploadDocuments() {
   }, [studentId]);
 
   const fetchDocuments = (studentId) => {
-    axios.get(`http://localhost:5000/api/student/${studentId}/documents`)
+    axios.get(`${API_BASE_URL}/api/student/${studentId}/documents`)
       .then(res => setDocuments(res.data))
       .catch(err => {
         console.error(err);
@@ -70,7 +71,7 @@ export default function UploadDocuments() {
 
     try {
       setUploading(true);
-      await axios.post('http://localhost:5000/api/upload-document', formData);
+      await axios.post(`${API_BASE_URL}/api/upload-document`, formData);
       setMessage('Document uploaded successfully.');
       setVariant('success');
       setFile(null);
@@ -88,7 +89,7 @@ export default function UploadDocuments() {
   const handleDelete = async (documentId) => {
     if (!window.confirm('Are you sure you want to delete this document?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/delete-document/${documentId}`);
+      await axios.delete(`${API_BASE_URL}/api/delete-document/${documentId}`);
       setDocuments(prev => prev.filter(doc => doc.document_id !== documentId));
       setMessage('Document deleted.');
       setVariant('info');
@@ -257,12 +258,12 @@ export default function UploadDocuments() {
         </Modal.Header>
         <Modal.Body className="text-center">
           {previewFile && isImage(previewFile.file_type) && (
-            <img src={`http://localhost:5000/${previewFile.file_path}`} alt="preview" className="img-fluid rounded shadow" />
+            <img src={`${API_BASE_URL}/${previewFile.file_path}`} alt="preview" className="img-fluid rounded shadow" />
           )}
           {previewFile && isPDF(previewFile.file_type) && (
             <iframe
               title="PDF Preview"
-              src={`http://localhost:5000/${previewFile.file_path}`}
+              src={`${API_BASE_URL}/${previewFile.file_path}`}
               width="100%"
               height="500px"
               style={{ border: 'none' }}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { API_BASE_URL } from '../../App'; // adjust if your path is different
 
 export default function ManageBursaries() {
   const [form, setForm] = useState({
@@ -26,7 +27,7 @@ export default function ManageBursaries() {
   const fetchBursaries = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/bursaries');
+      const res = await axios.get(`${API_BASE_URL}/api/bursaries`);
       setBursaries(res.data);
       setFilteredBursaries(res.data);
     } catch {
@@ -53,7 +54,7 @@ export default function ManageBursaries() {
 
     setLoading(true);
     try {
-      await axios.post('http://localhost:5000/api/bursaries', {
+      await axios.post(`${API_BASE_URL}/api/bursaries`, {
         ...form,
         created_by: adminId
       });
@@ -73,7 +74,7 @@ export default function ManageBursaries() {
     if (window.confirm('Are you sure you want to delete this bursary?')) {
       setLoading(true);
       try {
-        await axios.delete(`http://localhost:5000/api/bursaries/${id}`);
+        await axios.delete(`${API_BASE_URL}/api/bursaries/${id}`);
         toast.success('Bursary deleted');
         fetchBursaries();
       } catch {
@@ -95,7 +96,7 @@ export default function ManageBursaries() {
   const handleUpdate = async (id) => {
     setLoading(true);
     try {
-      await axios.put(`http://localhost:5000/api/bursaries/${id}`, editingForm);
+      await axios.put(`${API_BASE_URL}/api/bursaries/${id}`, editingForm);
       toast.success('Bursary updated');
       setEditingId(null);
       fetchBursaries();
@@ -119,7 +120,7 @@ export default function ManageBursaries() {
   return (
     <div className="container mt-4">
       <h4 className="mb-3">Add New Bursary</h4>
-      <p className="text-muted">Use the form below to submit a new bursary opportunity. Ensure all required details are complete and accurate to help students easily understand the offering.</p>
+      <p className="text-muted">Use the form below to submit a new bursary opportunity...</p>
 
       <div className="card p-3 mb-4">
         <form onSubmit={handleSubmit} className="row g-3">
