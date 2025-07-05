@@ -6,8 +6,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
 
-// ✅ Import API base URL from App.js
-import { API_BASE_URL } from '../App';
+// ✅ Fixed import
+import { API_BASE_URL } from '../config';
+
 
 function Login() {
   const [form, setForm] = useState({ email: '', password: '', role: 'student' });
