@@ -1,1 +1,2 @@
-export const API_BASE_URL = 'https://bursary-backend-3v4c.onrender.com';
+// ✅ config.js
+export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
